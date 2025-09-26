@@ -2,6 +2,22 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import './styles/global.css'; // Importa estilos globais
 import styles from './App.module.css'; // Estilos específicos do App e do Timer
+import Navbar from './components/Navbar'; // ⬅️ IMPORT CORRIGIDO
+import SocialProof from './components/SocialProof'; // ⬅️ IMPORT CORRIGIDO
+import MethodologySection from './components/MethodologySection'; // ⬅️ NOVO IMPORT
+
+// --- Ícones SVG de Custo Zero ---
+const CheckIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="var(--color-in-light)">
+        <path d="M20.285 2l-11.285 11.285-5.285-5.285-1.414 1.414 6.7 6.7 12.7-12.7z"/>
+    </svg>
+);
+const CrossIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="var(--color-not-in-light)">
+        <path d="M24 20.188l-8.315-8.209 8.2-8.282-1.414-1.414-8.282 8.2-8.2-8.315-1.414 1.414 8.315 8.2-8.209 8.315 1.414 1.414 8.2-8.315 8.315 8.209z"/>
+    </svg>
+);
+
 
 // --- Componentes (Módulos) ---
 
@@ -9,7 +25,6 @@ import styles from './App.module.css'; // Estilos específicos do App e do Timer
 const Hero = ({ logoUrl }) => (
     <div className={styles.hero} id="hero">
         <div className="container animate-on-scroll">
-            {/* Otimizando o carregamento da imagem com um alt real e loading='eager' para LCP */}
             <img src={logoUrl} alt="Looq Digital Logo" className={styles.logoImg} loading="eager" />
             <div className={styles.heroContent}>
                 <h1>Sua Marca de Moda Pronta para Dominar o Digital.</h1>
@@ -33,11 +48,11 @@ const BeforeAfter = () => (
                         <div className={styles.beforeAfterImages}>
                             <div className={styles.imageBox}>
                                 <img src={`[URL_DA_FOTO_ORIGINAL_${i}]`} alt={`Foto original ${i}`} loading="lazy" />
-                                <span>Antes</span>
+                                <span className={styles.beforeLabel}>ANTES</span>
                             </div>
                             <div className={styles.imageBox}>
                                 <img src={`[URL_DA_FOTO_GERADA_${i}]`} alt={`Foto gerada ${i}`} loading="lazy" />
-                                <span>Depois</span>
+                                <span className={styles.afterLabel}>DEPOIS</span>
                             </div>
                         </div>
                     </div>
@@ -47,7 +62,8 @@ const BeforeAfter = () => (
     </section>
 );
 
-// Componente para a Seção de Planos (Crucial: Removendo Swiper)
+
+// Componente para a Seção de Planos (Redesign Aplicado)
 const Plans = ({ plansRef }) => {
     // Dados dos planos em formato JSON (Melhoria de Manutenção)
     const pricingPlans = [
@@ -79,41 +95,47 @@ const Plans = ({ plansRef }) => {
                 <h2 className="section-title animate-on-scroll">Seu Plano para o Sucesso Digital</h2>
                 <p className="section-subtitle animate-on-scroll">Escolha o plano que se encaixa no seu objetivo e comece a ver os resultados.</p>
 
-                {/* Usamos Flexbox/Grid simples no desktop e CSS Scroll Snap no mobile para substituir o Swiper.js, reduzindo 20kb de JS. */}
                 <div className={styles.plansWrapper}>
                     {pricingPlans.map((plan, index) => (
-                        <div className={`${styles.planCard} ${plan.isFeatured ? styles.featured : ''} animate-on-scroll`} key={index}>
-                            {plan.isFeatured && <span className={styles.planTag}>Mais Popular</span>}
-                            <h3>{plan.title}</h3>
-                            <div className={styles.priceSection}>
+                        <div className={`${styles.planCardNew} ${plan.isFeatured ? styles.featuredNew : ''} animate-on-scroll`} key={index}>
+                            
+                            {plan.isFeatured && <span className={styles.planTag}>MAIS POPULAR</span>}
+
+                            <h3 className={styles.planTitleNew}>{plan.title}</h3>
+                            
+                            <div className={styles.priceSectionNew}>
                                 {plan.oldPrice && <span className={styles.oldPrice}>{plan.oldPrice}</span>}
-                                <span className={styles.price}>{plan.price}</span>
+                                <span className={styles.priceNew}>{plan.price}</span>
                                 <span className={styles.priceNote}>{plan.note}</span>
                             </div>
                             
-                            {/* Inclusos */}
-                            <ul>
+                            <ul className={styles.planBenefitList}>
                                 {plan.included.map((item, i) => (
-                                    <li key={`inc-${i}`}><span style={{ color: 'var(--color-in-light)', marginRight: '10px' }}>✓</span>{item}</li>
+                                    <li key={`inc-${i}`} className={styles.benefitItem}>
+                                        <CheckIcon />
+                                        {item}
+                                    </li>
                                 ))}
+                                
+                                {plan.notIncluded.length > 0 && plan.notIncluded[0] !== 'Nenhum' && (
+                                    <>
+                                        {plan.notIncluded.map((item, i) => (
+                                            <li key={`not-inc-${i}`} className={styles.benefitItemDisabled}>
+                                                <CrossIcon />
+                                                {item}
+                                            </li>
+                                        ))}
+                                    </>
+                                )}
                             </ul>
-
-                            {/* Não Inclusos */}
-                            {plan.notIncluded.length > 0 && plan.notIncluded[0] !== 'Nenhum' && (
-                                <ul className={styles.notIncluded}>
-                                    {plan.notIncluded.map((item, i) => (
-                                        <li key={`not-inc-${i}`}><span style={{ color: 'var(--color-not-in-light)', marginRight: '10px' }}>✖</span>{item}</li>
-                                    ))}
-                                </ul>
-                            )}
 
                             <a 
                                 href={`https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(plan.whatsappMessage)}`}
-                                className={styles.planCta}
+                                className={styles.planCtaNew} 
                                 target="_blank" 
                                 rel="noopener noreferrer"
                             >
-                                {plan.isFeatured ? 'Quero o Impulso Total' : 'Falar com Consultor'}
+                                {plan.isFeatured ? 'CONTRATAR AGORA' : 'FALAR COM CONSULTOR'}
                             </a>
                         </div>
                     ))}
@@ -123,10 +145,52 @@ const Plans = ({ plansRef }) => {
     );
 };
 
+// Novo Componente BlogSection
+const BlogSection = () => (
+    <section className="section" id="conteudo">
+        <div className="container">
+            <h2 className="section-title animate-on-scroll">Conteúdo Exclusivo: O Guia da Looq Digital</h2>
+            <p className="section-subtitle animate-on-scroll">Leia nossos posts para transformar a sua visão sobre marketing
+                digital para a moda.</p>
+            <div className={styles.blogPostGrid}>
+                <div className={styles.blogPostCard + ' animate-on-scroll'}>
+                    <h3><a href="#" className={styles.blogPostTitle}>5 Segredos para Vender Mais Roupas no Instagram</a></h3>
+                    <p>Descubra como criar posts que engajam, usar hashtags corretamente e transformar seu perfil em um
+                        ponto de venda.</p>
+                </div>
+                <div className={styles.blogPostCard + ' animate-on-scroll'}>
+                    <h3><a href="#" className={styles.blogPostTitle}>Catálogo Online: Por que sua Loja Precisa de Um Agora</a></h3>
+                    <p>Entenda como um catálogo digital profissional pode aumentar suas vendas e facilitar a vida dos
+                        seus clientes.</p>
+                </div>
+                <div className={styles.blogPostCard + ' animate-on-scroll'}>
+                    <h3><a href="#" className={styles.blogPostTitle}>O Poder dos Anúncios Pagos para Lojas de Bairro</a></h3>
+                    <p>Aprenda a atrair clientes do seu próprio bairro e de toda a cidade com campanhas de baixo custo e
+                        alta conversão.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+);
 
-// Componente para o Formulário de Contato
+
+// Componente para o Formulário de Contato (FIX para usar contactFormButton)
 const ContactForm = () => {
     const phoneNumber = "SEU_NUMERO"; // Placeholder para o número de WhatsApp
+    const [whatsappInput, setWhatsappInput] = useState('');
+    const [isValid, setIsValid] = useState(true);
+
+    const validateWhatsapp = (value) => {
+        const phoneRegex = /^\(?\d{2}\)?[\s-]?9?\s?\d{4}-?\d{4}$/; 
+        const numericValue = value.replace(/\D/g, ''); 
+        return numericValue.length >= 8 && numericValue.length <= 15 && phoneRegex.test(value);
+    };
+
+    const handleWhatsappChange = (e) => {
+        const value = e.target.value;
+        setWhatsappInput(value);
+        setIsValid(validateWhatsapp(value)); 
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -135,12 +199,14 @@ const ContactForm = () => {
         const whatsapp = form.elements['whatsapp'].value;
         const storeName = form.elements['store-name'].value;
         
-        // Criando a mensagem de contato
+        if (!validateWhatsapp(whatsapp)) {
+            alert("Por favor, insira um número de WhatsApp válido.");
+            return;
+        }
+
         const message = `Olá, sou ${name}, dono(a) da loja ${storeName}. Vi seu site e gostaria de agendar uma consultoria gratuita. Meu WhatsApp é: ${whatsapp}.`;
         
         window.open(`https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`, '_blank');
-
-        // Boa prática: Limpar o formulário ou dar feedback
         form.reset();
     };
 
@@ -148,13 +214,33 @@ const ContactForm = () => {
         <section className="section" id="contato">
             <div className="container">
                 <h2 className="section-title animate-on-scroll">Transforme Sua Marca. Agora.</h2>
-                <p className="section-subtitle animate-on-scroll">Comece com um diagnóstico gratuito e descubra como a Looq Digital pode impulsionar seu negócio.</p>
+                <p className="section-subtitle animate-on-scroll">Preencha o formulário para um diagnóstico gratuito e imediato via WhatsApp.</p>
                 <div className={styles.contactFormWrapper + ' animate-on-scroll'}>
                     <form onSubmit={handleSubmit} className={styles.contactForm}>
-                        <input type="text" name="name" placeholder="Nome Completo" required />
-                        <input type="tel" name="whatsapp" placeholder="WhatsApp" required />
-                        <input type="text" name="store-name" placeholder="Nome da Loja" required />
-                        <button type="submit">Agendar Consultoria Gratuita</button>
+                        <input type="text" name="name" placeholder="Nome Completo" required aria-label="Nome Completo"/>
+                        
+                        <input 
+                            type="tel" 
+                            name="whatsapp" 
+                            placeholder="(99) 99999-9999" 
+                            required 
+                            value={whatsappInput}
+                            onChange={handleWhatsappChange}
+                            aria-label="WhatsApp para Contato"
+                            className={!isValid && whatsappInput.length > 0 ? styles.invalidInput : ''}
+                        />
+                        {!isValid && whatsappInput.length > 0 && (
+                            <p className={styles.errorText}>
+                                Verifique o número. Use um formato válido.
+                            </p>
+                        )}
+                        
+                        <input type="text" name="store-name" placeholder="Nome da Loja/Instagram" required aria-label="Nome da Loja ou Instagram"/>
+                        
+                        {/* ⬅️ NOVO: Usando a classe simples contactFormButton para evitar o erro PostCSS */}
+                        <button type="submit" className={styles.contactFormButton} disabled={!isValid}>
+                            Agendar Consultoria Gratuita
+                        </button>
                     </form>
                 </div>
             </div>
@@ -191,19 +277,24 @@ export default function App() {
     useEffect(() => {
         animateElements(); // Inicializa animação
 
+        // FIX: Observar a rolagem geral se plansRef for null ou não estiver anexado
+        const targetElement = plansRef.current || document.body; 
+
+        const timerObserver = new IntersectionObserver(([entry]) => {
+            // Se a seção de planos estiver visível OU o usuário rolou o suficiente para o body
+            // Vamos simplificar o trigger para apenas quando a ref for visível.
+            if (entry.isIntersecting && !timerStarted.current) {
+                setTimerIsVisible(true);
+                timerStarted.current = true;
+            }
+        }, { threshold: 0.2 });
+        
+        // Verifica se plansRef está anexado antes de observar
         if (plansRef.current) {
-            // Observer para a seção de planos
-            const timerObserver = new IntersectionObserver(([entry]) => {
-                if (entry.isIntersecting && !timerStarted.current) {
-                    setTimerIsVisible(true);
-                    timerStarted.current = true; // Impede que o timer reinicie no scroll
-                }
-            }, { threshold: 0.2 });
-
             timerObserver.observe(plansRef.current);
-
-            return () => timerObserver.disconnect();
         }
+
+        return () => timerObserver.disconnect();
     }, [animateElements]);
 
     // Lógica de Contagem Regressiva do Timer
@@ -233,9 +324,11 @@ export default function App() {
     // Estrutura principal da aplicação
     return (
         <>
+            <Navbar /> {/* ⬅️ Navbar Fixa integrada */}
             <Hero logoUrl="/logo.png" />
             <BeforeAfter />
-            {/* Outras Seções (Social Proof, Blog) Omitidas para brevidade, seguindo o padrão modular. */}
+            <MethodologySection />
+            <BlogSection /> 
             <Plans plansRef={plansRef} />
             <ContactForm />
 

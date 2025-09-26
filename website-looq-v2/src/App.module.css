@@ -1,6 +1,6 @@
-/* src/App.module.css */
+/* src/App.module.css (FINAL COM CORREÇÃO DE OVERFLOW) */
 
-/* Estilos do Hero */
+/* --- ESTILOS DO HERO (BASE) --- */
 .hero {
     background-color: var(--color-bg-secondary);
     padding: 120px 0;
@@ -33,7 +33,7 @@
     margin: 0 auto 40px;
 }
 
-/* Estilos de Before/After (Extraído do CSS original) */
+/* --- ESTILOS BEFORE/AFTER --- */
 .beforeAfterGrid {
     display: grid;
     grid-template-columns: 1fr;
@@ -51,8 +51,11 @@
 .beforeAfterImages {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
     margin-bottom: 20px;
+    border: 1px solid var(--color-bg-primary);
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .imageBox {
@@ -60,6 +63,13 @@
     overflow: hidden;
     border-radius: 8px;
     border: 2px solid #333;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: zoom-in;
+}
+
+.imageBox:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
 }
 
 .imageBox img {
@@ -67,42 +77,109 @@
     height: auto;
     display: block;
     border-radius: 6px;
-    /* Otimização de imagem: Garante que a imagem preencha a caixa sem distorção */
-    object-fit: cover; 
+    object-fit: cover;
+}
+
+/* Rótulos de contraste visual (Base) */
+.beforeLabel {
+    background-color: var(--color-not-in-light);
+    color: var(--color-bg-primary);
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 0 0 8px 8px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+}
+
+/* Rótulo 'Depois' (Estilos copiados + override) */
+.afterLabel {
+    background-color: var(--color-in-light);
+    color: var(--color-bg-primary);
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 0 0 8px 8px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
 }
 
 
-/* Estilos de Planos (Substituindo o Swiper por CSS puro) */
+/* --- ESTILOS DE BOTÃO CTA (BASE) --- */
+.planCta {
+    /* Estilo base do botão CTA - Duplicado nas classes específicas abaixo */
+    width: 100%;
+    margin-top: 30px;
+    display: inline-block;
+    padding: 12px 0;
+    background-color: var(--color-button);
+    color: var(--color-bg-primary);
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+}
+
+.planCta:hover {
+    background-color: var(--color-button-hover);
+}
+
+
+/* --- ESTILOS DE PLANOS (REDESIGN) --- */
 
 .plansWrapper {
     display: flex;
-    overflow-x: auto; /* Habilita o scroll horizontal no mobile */
+    overflow-x: auto;
     gap: 30px;
     padding-bottom: 20px;
-    scroll-snap-type: x mandatory; /* Efeito de carrossel leve (Custo Zero) */
-    -webkit-overflow-scrolling: touch; /* Melhor scroll em iOS */
+
+    /* CORREÇÃO MOBILE: Remove o padding/margem para ser manipulado por media query */
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
 }
 
-.planCard {
+.planCardNew {
     background-color: var(--color-bg-secondary);
-    padding: 40px;
-    border-radius: 12px;
-    text-align: left;
+    padding: 35px;
+    border-radius: 16px;
+    text-align: center;
     position: relative;
-    min-width: 80%; /* Ocupa 80% do viewport para ter um efeito de carrossel */
-    scroll-snap-align: center; /* Alinha no centro ao rolar */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    /* No mobile, este valor será sobrescrito pela correção de viewport */
+    min-width: 80%;
+    max-width: 350px;
+    scroll-snap-align: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    transition: transform 0.3s ease; /* Transição suave para o destaque */
+    transition: transform 0.3s ease, border 0.3s ease;
+    border: 1px solid var(--color-bg-secondary);
 }
 
-.planCard.featured {
+.planCardNew:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* Destaque (Hierarquia Visual) */
+.featuredNew {
     background-color: #2a3547;
-    border: 2px solid var(--color-accent);
-    transform: scale(1.05);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    border: 3px solid var(--color-accent);
+    transform: scale(1.08) translateY(-20px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
 }
 
 .planTag {
@@ -117,24 +194,70 @@
     right: 20px;
 }
 
-.priceSection {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 15px;
+.planTitleNew {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: var(--color-accent);
+    margin-bottom: 25px;
 }
 
-.price {
-    font-size: 2.5rem;
+.oldPrice {
+    text-decoration: line-through;
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+}
+
+.priceSectionNew {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed var(--color-bg-primary);
+}
+
+.priceNew {
+    font-size: 3rem;
     font-weight: 700;
     color: var(--color-text-primary);
-    margin-bottom: 5px;
+    display: block;
 }
 
-.planCta {
-    /* Estilos de botão CTA (Extraído do CSS original) */
+.priceNote {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+}
+
+.planBenefitList {
+    list-style: none;
+    padding: 0;
+    margin-top: 0;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.benefitItem {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    margin-bottom: 12px;
+    color: var(--color-text-secondary);
+    gap: 10px;
+}
+
+/* Item Desabilitado (Estilos copiados + override) */
+.benefitItemDisabled {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    margin-bottom: 12px;
+    color: var(--color-text-secondary);
+    gap: 10px;
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+/* CTA no Plano (Estilos copiados + override) */
+.planCtaNew {
     width: 100%;
-    margin-top: 30px;
+    margin-top: auto;
     display: inline-block;
     padding: 12px 0;
     background-color: var(--color-button);
@@ -145,9 +268,196 @@
     font-size: 1rem;
     transition: background-color 0.3s ease;
     text-align: center;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
 }
 
-/* Timer Persistente */
+.planCtaNew:hover {
+    background-color: var(--color-button-hover);
+}
+
+
+/* --- ESTILOS DE PROVA SOCIAL --- */
+.socialProofGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+
+/* ... (Restante dos estilos de Prova Social, Blog, e Contato - Manter) ... */
+.testimonialCard {
+    background-color: var(--color-bg-primary);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    border: 1px solid #333;
+}
+
+.videoWrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.videoWrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.testimonialCard p {
+    font-style: italic;
+    color: var(--color-text-primary);
+    margin-bottom: 10px;
+}
+
+.testimonialCard span {
+    display: block;
+    font-weight: 600;
+    color: var(--color-accent);
+}
+
+.clientLogosTitle {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--color-text-secondary);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.clientLogosGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    align-items: center;
+    justify-items: center;
+}
+
+.clientLogo {
+    max-width: 100%;
+    height: auto;
+    max-height: 50px;
+    opacity: 0.7;
+    filter: grayscale(100%);
+    transition: opacity 0.3s, filter 0.3s;
+}
+
+.clientLogo:hover {
+    opacity: 1;
+    filter: none;
+}
+
+
+/* --- ESTILOS DE BLOG (UI/UX) --- */
+
+.blogPostGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.blogPostCard {
+    background-color: var(--color-bg-secondary);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    border-top: 5px solid var(--color-accent);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease;
+}
+
+.blogPostCard:hover {
+    transform: translateY(-5px);
+}
+
+.blogPostTitle {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--color-accent);
+    margin-bottom: 15px;
+    text-decoration: none;
+    line-height: 1.3;
+}
+
+.readMore {
+    display: inline-block;
+    margin-top: 15px;
+    color: var(--color-button);
+    font-weight: 600;
+    transition: color 0.3s;
+    cursor: pointer;
+}
+
+
+/* --- ESTILOS DE FORMULÁRIO DE CONTATO --- */
+
+.contactFormWrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: var(--color-bg-secondary);
+    padding: 40px;
+    border-radius: 12px;
+}
+
+.contactForm input {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background-color: #333;
+    color: var(--color-text-primary);
+    font-size: 1rem;
+}
+
+/* Botão de Contato */
+.contactFormButton {
+    width: 100%;
+    display: inline-block;
+    padding: 15px 0;
+    background-color: var(--color-button);
+    color: var(--color-bg-primary);
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.contactFormButton:hover {
+    background-color: var(--color-button-hover);
+}
+
+
+/* Feedback Visual */
+.contactForm input.invalidInput {
+    border-color: var(--color-highlight) !important;
+}
+
+.errorText {
+    color: var(--color-highlight);
+    font-size: 0.9rem;
+    margin-top: -10px;
+    margin-bottom: 15px;
+}
+
+
+/* --- TIMER PERSISTENTE (BASE) --- */
 .timerPersistent {
     position: fixed;
     bottom: 0;
@@ -161,15 +471,14 @@
     font-size: 1rem;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
     z-index: 100;
-    display: none;
-    /* Transição suave para aparecer */
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    visibility: hidden;
     opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
     transform: translateY(100%);
 }
 
 .timerPersistent.is-visible {
-    display: block;
+    visibility: visible;
     opacity: 1;
     transform: translateY(0);
 }
@@ -182,9 +491,76 @@
 }
 
 
-/* Media Queries (Melhoria de Responsividade) */
+/* --- NOVOS ESTILOS: METODOLOGIA USP (Para Vendas) --- */
+
+.salesTitle {
+    font-family: 'Playfair Display', serif;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 3.2rem;
+    color: var(--color-text-primary);
+}
+
+.methodologyGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.stepCard {
+    padding: 20px;
+    border-radius: 8px;
+    border-bottom: 2px solid var(--color-bg-secondary);
+}
+
+.iconContainer {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    border: 3px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s;
+}
+
+.iconContainer svg {
+    width: 28px;
+    height: 28px;
+}
+
+.stepCard:hover .iconContainer {
+    transform: scale(1.1);
+}
+
+.stepTitle {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: var(--color-text-primary);
+}
+
+
+/* --- MEDIA QUERIES: BREAKPOINT PARA DESKTOP (>= 768px) --- */
+
 @media (min-width: 768px) {
+
+    /* Retorna o destaque do plano para ser agressivo no desktop */
+    .featuredNew {
+        transform: scale(1.15) translateY(-30px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
+    }
+
+    /* CORREÇÃO: Reseta o plansWrapper para desktop grid */
     .plansWrapper {
+        width: auto;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 0;
+        padding-right: 0;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 30px;
@@ -192,13 +568,49 @@
         scroll-snap-type: none;
     }
 
-    .planCard {
+    .planCardNew {
         min-width: auto;
-        transform: none;
     }
 
-    .planCard.featured {
-        transform: scale(1.1) translateY(-20px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
+    /* ... (Restante das regras de desktop - Manter) ... */
+}
+
+
+/* --- CORREÇÕES FINAIS PARA EVITAR OVERFLOW E AJUSTE MOBILE (< 768px) --- */
+@media (max-width: 767px) {
+    .heroContent h1 {
+        font-size: 2.2rem;
+    }
+
+    .salesTitle {
+        font-size: 2.5rem;
+    }
+
+    /* CORREÇÃO CRÍTICA DO OVERFLOW DOS PLANOS (Layout Fluido) */
+    /* Assumindo que o .container padrão tem 20px de padding (total 40px) */
+    .plansWrapper {
+        width: 100vw;
+        /* Compensa o padding de 20px do .container, puxando para a esquerda */
+        margin-left: calc(-1 * var(--global-padding, 20px));
+
+        /* Adiciona padding nas laterais do plansWrapper para espaçamento visual */
+        padding-left: var(--global-padding, 20px);
+        padding-right: var(--global-padding, 20px);
+
+        justify-content: flex-start;
+    }
+
+    .planCardNew {
+        /* Garante que o cartão caiba na tela com o padding e gap */
+        min-width: calc(100vw - 40px - 30px);
+        /* 100vw - padding-lateral - gap */
+        max-width: 90vw;
+        transform: none;
+        /* Anula o transform: scale/translate para evitar o estouro */
+    }
+
+    .featuredNew {
+        transform: none;
+        /* Anula o transform: scale/translate no mobile */
     }
 }

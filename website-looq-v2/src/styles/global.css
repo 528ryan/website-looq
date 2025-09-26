@@ -23,16 +23,30 @@ html {
     scroll-behavior: smooth;
 }
 
+
 body {
     font-family: 'Montserrat', sans-serif;
     background-color: var(--color-bg-primary);
     color: var(--color-text-primary);
     line-height: 1.6;
-    overflow-x: hidden;
-    position: relative;
-    /* Otimização de renderização de fontes */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+
+    /* ⬇️ CORREÇÃO DE CENTRALIZAÇÃO GLOBAL E LAYOUT ⬇️ */
+    
+    /* 1. Garante que o corpo ocupe toda a largura/altura */
+    width: 100%; 
+    min-height: 100vh; 
+    
+    /* 2. Remove o overflow horizontal que impede o layout fluido */
+    overflow-x: hidden; 
+
+    /* Se você está tentando centralizar o #root (o container do React)
+       Esta regra no body o torna um container flexível para centralizar seu filho (o #root) */
+    display: flex; 
+    justify-content: center; /* Centraliza horizontalmente o #root */
+    align-items: flex-start; /* Alinha o conteúdo ao topo (ou center se preferir no meio) */
+    
+    /* 3. Previne que algo force o scroll horizontal */
+    position: relative; 
 }
 
 /* Utilitários globais de layout */
