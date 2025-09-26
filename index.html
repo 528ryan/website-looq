@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Looq Digital - Soluções em Marketing</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/png" href="[URL_DO_SEU_FAVICON.png]">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <style>
+        :root {
+            --color-bg-primary: #121820;
+            --color-bg-secondary: #1a222e;
+            --color-text-primary: #ffffff;
+            --color-text-secondary: #c0c0c0;
+            --color-accent: #ffb703;
+            --color-highlight: #ff5555;
+            --color-button: #2ecc71;
+            --color-button-hover: #27ae60;
+            --color-in-light: #50c050;
+            /* Green check */
+            --color-not-in-light: #ff7f7f;
+            /* Red cross */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            /* Garante que não haverá scroll horizontal */
+            position: relative;
+        }
+
+        /* Padronização de seções */
+        .section {
+            padding: 80px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Estilo para todos os títulos */
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--color-accent);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--color-text-secondary);
+            max-width: 700px;
+            margin: 0 auto 60px;
+        }
+
+        /* Header / Hero Section */
+        .hero {
+            background-color: var(--color-bg-secondary);
+            padding: 120px 0;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero .logo-img {
+            max-width: 250px;
+            height: auto;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 767px) {
+            .hero .logo-img {
+                max-width: 180px;
+                padding: 0 10px;
+            }
+        }
+
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            color: var(--color-accent);
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        /* Galeria "Antes e Depois" */
+        .before-after-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        .before-after-card {
+            background-color: var(--color-bg-secondary);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .before-after-images {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .image-box {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            border: 2px solid #333;
+        }
+
+        .image-box img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 6px;
+        }
+
+        .image-box span {
+            display: block;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+        }
+
+        /* Swiper Carousel para Planos */
+        .swiper-container {
+            width: 100%;
+            padding: 20px 0 50px 0;
+            overflow: hidden;
+        }
+
+        .swiper-slide {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+        }
+
+        .swiper-pagination-bullet {
+            background: var(--color-text-secondary);
+            opacity: 1;
+        }
+
+        .swiper-pagination-bullet-active {
+            background: var(--color-accent);
+        }
+
+        .plan-card {
+            background-color: var(--color-bg-secondary);
+            padding: 40px;
+            border-radius: 12px;
+            text-align: left;
+            position: relative;
+            width: 90%;
+            max-width: 350px;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .plan-card.featured {
+            background-color: #2a3547;
+            border: 2px solid var(--color-accent);
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .plan-tag {
+            background-color: var(--color-accent);
+            color: var(--color-bg-primary);
+            font-weight: 700;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .plan-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--color-accent);
+            margin-bottom: 10px;
+        }
+
+        .plan-card .price-section {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .plan-card .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            margin-bottom: 5px;
+        }
+
+        .plan-card .old-price {
+            text-decoration: line-through;
+            color: var(--color-text-secondary);
+            font-size: 1rem;
+        }
+
+        .plan-card .price-note {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+        }
+
+        .plan-card ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+            flex-grow: 1;
+        }
+
+        .plan-card li {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            color: var(--color-text-secondary);
+            display: flex;
+            align-items: center;
+        }
+
+        .plan-card li::before {
+            content: '✓';
+            color: var(--color-in-light);
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .plan-card ul.not-included {
+            margin-top: 20px;
+            border-top: 1px dashed var(--color-text-secondary);
+            padding-top: 20px;
+        }
+
+        .plan-card ul.not-included li::before {
+            content: '✖';
+            color: var(--color-not-in-light);
+        }
+
+        .plan-card .plan-cta {
+            width: 100%;
+            margin-top: 30px;
+            display: inline-block;
+            padding: 12px 0;
+            background-color: var(--color-button);
+            color: var(--color-bg-primary);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            text-align: center;
+        }
+
+        .plan-card .plan-cta:hover {
+            background-color: var(--color-button-hover);
+        }
+
+        /* Formulário de Contato */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--color-bg-secondary);
+            padding: 40px;
+            border-radius: 12px;
+        }
+
+        .contact-form h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--color-accent);
+            margin-bottom: 20px;
+        }
+
+        .contact-form input,
+        .contact-form button {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background-color: #333;
+            color: var(--color-text-primary);
+            font-size: 1rem;
+        }
+
+        .contact-form button {
+            background-color: var(--color-button);
+            color: var(--color-bg-primary);
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+
+        .contact-form button:hover {
+            background-color: var(--color-button-hover);
+        }
+
+        /* Timer Persistente */
+        .timer-persistent {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--color-highlight);
+            color: var(--color-text-primary);
+            text-align: center;
+            padding: 15px 0;
+            font-weight: 700;
+            font-size: 1rem;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            display: none;
+        }
+
+        .timer-persistent.is-visible {
+            display: block;
+        }
+
+        .timer-persistent span {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-left: 10px;
+        }
+
+        /* Media Queries */
+        @media (max-width: 480px) {
+            .timer-persistent {
+                font-size: 0.9rem;
+                padding: 10px 0;
+            }
+
+            .timer-persistent span {
+                font-size: 1rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .hero {
+                padding: 150px 0;
+            }
+
+            .hero-content h1 {
+                font-size: 4.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1.4rem;
+            }
+
+            .before-after-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 40px;
+            }
+
+            .swiper-container {
+                padding: 0;
+            }
+
+            .swiper-wrapper {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 30px;
+                align-items: stretch;
+            }
+
+            .swiper-slide {
+                width: auto;
+                display: block;
+            }
+
+            .plan-card {
+                width: 100%;
+                max-width: none;
+                margin: 0;
+            }
+
+            .plan-card.featured {
+                transform: scale(1.1) translateY(-20px);
+                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
+            }
+
+            .swiper-pagination {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hero">
+        <div class="container animate-on-scroll">
+            <img src="[URL_DA_SUA_LOGO.png]" alt="Looq Digital Logo" class="logo-img">
+            <div class="hero-content">
+                <h1>Sua Marca de Moda Pronta para Dominar o Digital.</h1>
+                <p>Nós construímos a presença digital que sua loja merece. De fotos sem vida a campanhas que transformam
+                    olhares em vendas.</p>
+            </div>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">O Poder de uma Imagem Profissional</h2>
+            <p class="section-subtitle animate-on-scroll">O segredo das grandes marcas é a apresentação. Veja o que
+                acontece quando sua roupa encontra o olhar certo e um toque profissional.</p>
+
+            <div class="before-after-grid">
+                <div class="before-after-card animate-on-scroll">
+                    <div class="before-after-images">
+                        <div class="image-box">
+                            <img src="[URL_DA_FOTO_ORIGINAL_1]" alt="Foto original da roupa de uma loja de moda"
+                                loading="lazy">
+                            <span>Antes</span>
+                        </div>
+                        <div class="image-box">
+                            <img src="[URL_DA_FOTO_GERADA_1]"
+                                alt="Modelo virtual vestindo a roupa de forma profissional" loading="lazy">
+                            <span>Depois</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="before-after-card animate-on-scroll">
+                    <div class="before-after-images">
+                        <div class="image-box">
+                            <img src="[URL_DA_FOTO_ORIGINAL_2]" alt="Foto original de um vestido para brechó"
+                                loading="lazy">
+                            <span>Antes</span>
+                        </div>
+                        <div class="image-box">
+                            <img src="[URL_DA_FOTO_GERADA_2]"
+                                alt="Modelo virtual vestindo o vestido em um cenário elegante" loading="lazy">
+                            <span>Depois</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="before-after-card animate-on-scroll">
+                    <div class="before-after-images">
+                        <div class="image-box">
+                            <img src="[URL_DA_FOTO_ORIGINAL_3]"
+                                alt="Foto original de uma calça jeans em um fundo branco" loading="lazy">
+                            <span>Antes</span>
+                        </div>
+                        <div class="image-box">
+                            <img src="[URL_DA_FOTO_GERADA_3]"
+                                alt="Modelo virtual vestindo a calça jeans em um cenário urbano" loading="lazy">
+                            <span>Depois</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background-color: var(--color-bg-secondary);">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">A Confiança de Quem Já Cresceu com a Gente</h2>
+            <p class="section-subtitle animate-on-scroll">As marcas parceiras que transformaram seus resultados com a
+                Looq Digital.</p>
+
+            <div class="social-proof-grid">
+                <div class="testimonial animate-on-scroll">
+                    <iframe src="[URL_DO_DEPOIMENTO_VIDEO_1]"
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+                        loading="lazy"></iframe>
+                    <p>"Graças à Looq Digital, minhas vendas no Instagram triplicaram! O trabalho é impecável e o
+                        suporte é sensacional."</p>
+                    <span>- Nome do Cliente, Loja X</span>
+                </div>
+                <div class="testimonial animate-on-scroll">
+                    <iframe src="[URL_DO_DEPOIMENTO_VIDEO_2]"
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+                        loading="lazy"></iframe>
+                    <p>"O catálogo online é um sucesso! Agora recebo pedidos no WhatsApp o dia todo, sem ter que
+                        gerenciar tudo manualmente."</p>
+                    <span>- Nome do Cliente, Loja Y</span>
+                </div>
+            </div>
+
+            <div style="margin-top: 60px;">
+                <h3 style="font-size: 1.5rem; color: var(--color-accent); margin-bottom: 20px;">Marcas que Confiam no
+                    Nosso Trabalho</h3>
+                <div class="social-proof-grid">
+                    <img src="[URL_DO_LOGO_CLIENTE_1]" alt="Logo do Cliente 1" class="client-logo animate-on-scroll"
+                        loading="lazy">
+                    <img src="[URL_DO_LOGO_CLIENTE_2]" alt="Logo do Cliente 2" class="client-logo animate-on-scroll"
+                        loading="lazy">
+                    <img src="[URL_DO_LOGO_CLIENTE_3]" alt="Logo do Cliente 3" class="client-logo animate-on-scroll"
+                        loading="lazy">
+                    <img src="[URL_DO_LOGO_CLIENTE_4]" alt="Logo do Cliente 4" class="client-logo animate-on-scroll"
+                        loading="lazy">
+                </div>
+            </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Conteúdo Exclusivo: O Guia da Looq Digital</h2>
+            <p class="section-subtitle animate-on-scroll">Leia nossos posts para transformar a sua visão sobre marketing
+                digital para a moda.</p>
+            <div class="before-after-grid">
+                <div class="blog-post-card animate-on-scroll">
+                    <h3><a href="#">5 Segredos para Vender Mais Roupas no Instagram</a></h3>
+                    <p>Descubra como criar posts que engajam, usar hashtags corretamente e transformar seu perfil em um
+                        ponto de venda.</p>
+                </div>
+                <div class="blog-post-card animate-on-scroll">
+                    <h3><a href="#">Catálogo Online: Por que sua Loja Precisa de Um Agora</a></h3>
+                    <p>Entenda como um catálogo digital profissional pode aumentar suas vendas e facilitar a vida dos
+                        seus clientes.</p>
+                </div>
+                <div class="blog-post-card animate-on-scroll">
+                    <h3><a href="#">O Poder dos Anúncios Pagos para Lojas de Bairro</a></h3>
+                    <p>Aprenda a atrair clientes do seu próprio bairro e de toda a cidade com campanhas de baixo custo e
+                        alta conversão.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background-color: var(--color-bg-secondary);">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Seu Plano para o Sucesso Digital</h2>
+            <p class="section-subtitle animate-on-scroll">Escolha o plano que se encaixa no seu objetivo e comece a ver
+                os resultados.</p>
+
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="plan-card animate-on-scroll">
+                            <h3>Plano Essencial</h3>
+                            <div class="price-section">
+                                <span class="price">R$ 299,90</span>
+                                <span class="price-note">/mês</span>
+                            </div>
+                            <ul>
+                                <li>
+                                    <p>Geração de 5 imagens de produtos</p>
+                                </li>
+                                <li>
+                                    <p>Sugestões de legendas e hashtags</p>
+                                </li>
+                                <li>
+                                    <p>Suporte via WhatsApp</p>
+                                </li>
+                            </ul>
+                            <ul class="not-included">
+                                <li>
+                                    <p>Criação de posts</p>
+                                </li>
+                                <li>
+                                    <p>Catálogo Online Personalizado</p>
+                                </li>
+                                <li>
+                                    <p>Gestão de redes sociais</p>
+                                </li>
+                            </ul>
+                            <a href="https://api.whatsapp.com/send?phone=SEU_NUMERO&text=Olá, tenho interesse no Plano Essencial da Looq Digital. Poderia me dar mais detalhes?"
+                                class="plan-cta">Quero o Essencial</a>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <div class="plan-card featured animate-on-scroll">
+                            <span class="plan-tag">Mais Popular</span>
+                            <h3>Plano Impulso Total</h3>
+                            <div class="price-section">
+                                <span class="old-price">De R$ 599,90</span>
+                                <span class="price">R$ 399,90</span>
+                                <span class="price-note">/mês</span>
+                            </div>
+                            <ul>
+                                <li>
+                                    <p>Geração de 10 imagens de produtos</p>
+                                </li>
+                                <li>
+                                    <p>Criação de 8 posts completos</p>
+                                </li>
+                                <li>
+                                    <p>Criação de Catálogo Online Personalizado</p>
+                                </li>
+                                <li>
+                                    <p>Atualização de Catálogo no WhatsApp</p>
+                                </li>
+                                <li>
+                                    <p>Agendamento de posts</p>
+                                </li>
+                            </ul>
+                            <ul class="not-included">
+                                <li>
+                                    <p>Gestão de redes sociais</p>
+                                </li>
+                            </ul>
+                            <a href="https://api.whatsapp.com/send?phone=SEU_NUMERO&text=Olá, quero contratar o Plano Impulso Total da Looq Digital! Podemos conversar sobre os próximos passos?"
+                                class="plan-cta">Quero o Impulso Total</a>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <div class="plan-card animate-on-scroll">
+                            <h3>Plano Domínio Digital</h3>
+                            <div class="price-section">
+                                <span class="price">R$ 799,90</span>
+                                <span class="price-note">/mês</span>
+                            </div>
+                            <ul>
+                                <li>
+                                    <p>Geração de 15 imagens de produtos</p>
+                                </li>
+                                <li>
+                                    <p>Criação de 12 posts completos</p>
+                                </li>
+                                <li>
+                                    <p>Gestão completa de redes sociais</p>
+                                </li>
+                                <li>
+                                    <p>Relatório de desempenho mensal detalhado</p>
+                                </li>
+                                <li>
+                                    <p>Suporte Prioritário</p>
+                                </li>
+                            </ul>
+                            <ul class="not-included">
+                                <li>
+                                    <p>Nenhum</p>
+                                </li>
+                            </ul>
+                            <a href="https://api.whatsapp.com/send?phone=SEU_NUMERO&text=Olá, gostaria de saber mais sobre o Plano Domínio Digital. Vamos conversar?"
+                                class="plan-cta">Quero o Domínio Digital</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Transforme Sua Marca. Agora.</h2>
+            <p class="section-subtitle animate-on-scroll">Comece com um diagnóstico gratuito e descubra como a Looq
+                Digital pode impulsionar seu negócio.</p>
+            <div class="contact-form animate-on-scroll">
+                <form>
+                    <input type="text" name="name" placeholder="Nome Completo" required>
+                    <input type="tel" name="whatsapp" placeholder="WhatsApp" required>
+                    <input type="text" name="store-name" placeholder="Nome da Loja" required>
+                    <button type="submit">Agendar Consultoria Gratuita</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <div class="timer-persistent" id="persistent-timer">
+        Oferta Especial válida por: <span id="timer">10:00</span>
+    </div>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        // Animações ao Rolar
+        const observerOptions = {
+            root: null,
+            rootMargin: "0px",
+            threshold: 0.1
+        };
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.animate-on-scroll').forEach(element => {
+            observer.observe(element);
+        });
+
+        // Inicialização do Swiper Carrossel
+        let mySwiper = null;
+        const swiperConfig = {
+            slidesPerView: 1.2,
+            centeredSlides: true,
+            spaceBetween: 20,
+            initialSlide: 1,
+            loop: false,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            breakpoints: {
+                768: {
+                    slidesPerView: 3,
+                    spaceBetween: 30,
+                    centeredSlides: false,
+                    initialSlide: 0,
+                    loop: false,
+                }
+            }
+        };
+
+        function initSwiper() {
+            if (mySwiper) {
+                mySwiper.destroy(true, true);
+                mySwiper = null;
+            }
+            mySwiper = new Swiper('.swiper-container', swiperConfig);
+        }
+
+        initSwiper();
+        window.addEventListener('resize', initSwiper);
+
+        // Timer de 10 minutos (aparece ao chegar na seção de planos)
+        const MINUTES_10 = 10 * 60 * 1000;
+        let endTime;
+        let timerInterval;
+        let timerStarted = false;
+
+        const plansSection = document.getElementById('section-plans');
+        const persistentTimer = document.getElementById('persistent-timer');
+
+        const timerObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (!timerStarted) {
+                        persistentTimer.classList.add('is-visible');
+                        endTime = new Date().getTime() + MINUTES_10;
+                        timerStarted = true;
+                        timerInterval = setInterval(function () {
+                            const now = new Date().getTime();
+                            const distance = endTime - now;
+                            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                            document.getElementById("timer").innerHTML = minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
+
+                            if (distance < 0) {
+                                clearInterval(timerInterval);
+                                document.getElementById("timer").innerHTML = "00:00";
+                            }
+                        }, 1000);
+                    }
+                }
+            });
+        }, { threshold: 0.2 });
+
+        timerObserver.observe(plansSection);
+
+        // Formulário de Contato para WhatsApp
+        document.querySelector('.contact-form form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const name = document.querySelector('input[name="name"]').value;
+            const whatsapp = document.querySelector('input[name="whatsapp"]').value;
+            const storeName = document.querySelector('input[name="store-name"]').value;
+            const message = `Olá, sou ${name}, dono(a) da loja ${storeName}. Vi seu site e gostaria de agendar uma consultoria gratuita. Meu WhatsApp é: ${whatsapp}.`;
+            window.open(`https://api.whatsapp.com/send?phone=SEU_NUMERO&text=${encodeURIComponent(message)}`, '_blank');
+        });
+    </script>
+</body>
+
+</html>
